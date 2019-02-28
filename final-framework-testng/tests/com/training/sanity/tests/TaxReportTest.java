@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.training.generics.ScreenShot;
-import com.training.pom.AdminLoginPOM;
+import com.training.pom.AdminLoginPOM__UNF_051;
 import com.training.pom.DashboardPOM;
 import com.training.pom.OrderReportPOM;
 import com.training.pom.TaxReportPOM;
@@ -23,7 +23,7 @@ public class TaxReportTest {
 
 	private WebDriver driver;
 	private String baseUrl;
-	private AdminLoginPOM adminLoginPOM;
+	private AdminLoginPOM__UNF_051 adminLoginPOM;
 	private static Properties properties;
 	private ScreenShot screenShot;
 
@@ -37,7 +37,7 @@ public class TaxReportTest {
 	@BeforeMethod
 	public void setUp() throws Exception {
 		driver = DriverFactory.getDriver(DriverNames.CHROME);
-		adminLoginPOM = new AdminLoginPOM(driver);
+		adminLoginPOM = new AdminLoginPOM__UNF_051(driver);
 		baseUrl = properties.getProperty("baseURL");
 		screenShot = new ScreenShot(driver);
 		// open the browser

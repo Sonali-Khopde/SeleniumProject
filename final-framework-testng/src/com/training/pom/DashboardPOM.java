@@ -13,6 +13,14 @@ public class DashboardPOM {
 		PageFactory.initElements(driver, this);
 	}
 
+	//Reading Dashboard header
+	@FindBy(xpath="//h1[contains(text(),'Dashboard')]")
+	private WebElement dashboardHeader;
+	
+	public String getDashboardHeaders() {
+		return this.dashboardHeader.getText();
+	}
+	
 	// click first customer link
 	@FindBy(xpath = "//i[@class='fa fa-user fa-fw']")
 	private WebElement customerLnk;
@@ -27,6 +35,14 @@ public class DashboardPOM {
 
 	public void clickCustomersLnk() {
 		this.customersLnk.click();
+	}
+
+	// click cust grp under customers
+	@FindBy(xpath = "/html[1]/body[1]/div[1]/nav[1]/ul[1]/li[6]/ul[1]/li[2]/a[1]")
+	private WebElement customerGroup_Customers;
+
+	public void clickCustomerGroup_Customers() {
+		this.customerGroup_Customers.click();
 	}
 
 	// click Returns
@@ -62,7 +78,7 @@ public class DashboardPOM {
 	}
 
 	// click sales
-	@FindBy(xpath = "/html[1]/body[1]/div[1]/nav[1]/ul[1]/li[9]/ul[1]/li[1]/a[1]")
+	@FindBy(xpath = "/html[1]/body[1]/div[1]/nav[1]/ul[1]/li[5]/a[1]")
 	public WebElement sales;
 
 	public void clickSales() {
@@ -70,11 +86,34 @@ public class DashboardPOM {
 	}
 
 	// click orders
-	@FindBy(xpath = "/html[1]/body[1]/div[1]/nav[1]/ul[1]/li[9]/ul[1]/li[1]/ul[1]/li[1]/a[1]")
+	@FindBy(xpath = "/html[1]/body[1]/div[1]/nav[1]/ul[1]/li[5]/ul[1]/li[1]/a[1]")
 	public WebElement orders;
 
 	public void clickOrder() {
 		this.orders.click();
 	}
 
+	// click Customers under report
+	@FindBy(xpath = "//a[@class='parent'][contains(text(),'Customers')]")
+	public WebElement customersReportLnk;
+
+	public void clickCustomersReportLnk() {
+		this.customersReportLnk.click();
+	}
+
+	// click Reports under Customers under report
+	@FindBy(xpath = "/html[1]/body[1]/div[1]/nav[1]/ul[1]/li[9]/ul[1]/li[3]/ul[1]/li[4]/a[1]")
+	public WebElement rewardPointsCustomersReportLnk;
+
+	public void clickRewardPointsCustomersReportLnk() {
+		this.rewardPointsCustomersReportLnk.click();
+	}
+
+	//clicking on new order under Sales -> Order
+	@FindBy(xpath="/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]")
+	public WebElement btnAddOrder;
+	
+	public void clickBtnAddOrder() {
+		this.btnAddOrder.click();
+	}
 }

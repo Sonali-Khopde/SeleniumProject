@@ -38,4 +38,5 @@ public class TaxReportPOM {
 	public String getPagerHeaderTitle() {
 		return this.pagerHeaderTitle.getText();
 	}
+
 }

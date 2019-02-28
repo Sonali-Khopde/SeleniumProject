@@ -1,9 +1,11 @@
 package com.training.sanity.tests;
 
+import java.awt.AWTException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -14,17 +16,17 @@ import org.testng.annotations.Test;
 import com.training.generics.ScreenShot;
 import com.training.pom.AdminLoginPOM__UNF_051;
 import com.training.pom.DashboardPOM;
-import com.training.pom.ShippingReportPOM;
+import com.training.pom.OrderHistoryPOM_UNF_53;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
-public class ShippingReportTest {
-
+public class OrderHistoryTest_UNF_053 {
+	private AdminLoginPOM__UNF_051 adminLoginPOM;
 	private WebDriver driver;
 	private String baseUrl;
-	private AdminLoginPOM__UNF_051 adminLoginPOM;
 	private static Properties properties;
 	private ScreenShot screenShot;
+	JavascriptExecutor js = (JavascriptExecutor) driver;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws IOException {
@@ -39,13 +41,11 @@ public class ShippingReportTest {
 		adminLoginPOM = new AdminLoginPOM__UNF_051(driver);
 		baseUrl = properties.getProperty("baseURL");
 		screenShot = new ScreenShot(driver);
-		// open the browser
 		driver.get(baseUrl);
-		// login as admin
 		adminLoginPOM.sendUserName("admin");
 		adminLoginPOM.sendPassword("admin@123");
 		adminLoginPOM.clickLoginBtn();
-		screenShot.captureScreenShot("UNF_024_Login");
+		screenShot.captureScreenShot("UNF_053_Login");
 	}
 
 	@AfterMethod
@@ -55,16 +55,23 @@ public class ShippingReportTest {
 	}
 
 	@Test
-	public void taxReport() {
+	public void validLoginTest() throws AWTException, InterruptedException {
+		OrderHistoryPOM_UNF_53 ohPOM = new OrderHistoryPOM_UNF_53(driver);
 		DashboardPOM dPOM = new DashboardPOM(driver);
-		dPOM.clickReport();
+		// 1. Click on view icon of order placed by the customer in Latest Orders
+		// section
 		dPOM.clickSales();
-		dPOM.clickShippingLnk();
-		ShippingReportPOM sPOM = new ShippingReportPOM(driver);
-		sPOM.setGroupByList();
-		sPOM.clickFilterBtn();
-		String title = "Shipping Report";
-		Assert.assertEquals(title, sPOM.getPagerHeaderTitle());
-		screenShot.captureScreenShot("UNF_024_Final");
+		dPOM.clickOrder();
+		ohPOM.clickViewOrder();
+		// 2. Click on Generate icon of options section
+		ohPOM.clickGenerateInvoice();
+		// 3. Select valid credentials in Order status list box
+		ohPOM.setOrderStatus("Complete");
+		// 4. Click on Add history button
+		ohPOM.clickBtnAddHistory();
+		Thread.sleep(3000);
+		Assert.assertTrue(ohPOM.getConfirMsg().contains("Success: You have modified orders!"));
+		screenShot.captureScreenShot("UNF_053_Confirmation message");
+
 	}
 }
