@@ -13,6 +13,22 @@ public class DashboardPOM {
 		PageFactory.initElements(driver, this);
 	}
 
+	//clicking on Catelog
+	@FindBy(xpath="//i[@class='fa fa-tags fa-fw']")
+	private WebElement catelogLnk;
+	
+	public void clickCatelogLnk() {
+		this.catelogLnk.click();
+	}
+	
+	//clicking on Products Link
+	@FindBy(xpath="/html[1]/body[1]/div[1]/nav[1]/ul[1]/li[2]/ul[1]/li[2]/a[1]")
+	private WebElement productsLnk;
+	
+	public void clickProductsLnk() {
+		this.productsLnk.click();
+	}	
+	
 	//Reading Dashboard header
 	@FindBy(xpath="//h1[contains(text(),'Dashboard')]")
 	private WebElement dashboardHeader;

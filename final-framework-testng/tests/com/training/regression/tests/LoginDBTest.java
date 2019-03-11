@@ -3,16 +3,14 @@ package com.training.regression.tests;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.training.bean.LoginBean;
-import com.training.dao.ELearningDAO;
 import com.training.dataproviders.LoginDataProviders;
 import com.training.generics.GenericMethods;
 import com.training.generics.ScreenShot;
@@ -26,9 +24,8 @@ public class LoginDBTest {
 	private LoginPOM loginPOM;
 	private static Properties properties;
 	private ScreenShot screenShot;
-	private GenericMethods genericMethods; 
-	
-	
+	private GenericMethods genericMethods;
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws IOException {
 		properties = new Properties();
@@ -42,30 +39,25 @@ public class LoginDBTest {
 		loginPOM = new LoginPOM(driver);
 		baseUrl = properties.getProperty("baseURL");
 		screenShot = new ScreenShot(driver);
-		genericMethods = new GenericMethods(driver); 
+		genericMethods = new GenericMethods(driver);
 		// open the browser
 		driver.get(baseUrl);
 	}
 
 	@AfterMethod
 	public void tearDown() throws Exception {
-		Thread.sleep(1000);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.quit();
 	}
 
-
 	@Test(dataProvider = "db-inputs", dataProviderClass = LoginDataProviders.class)
 	public void loginDBTest(String userName, String password) {
-		// for demonstration 
-//		genericMethods.getElement("login", "id"); 
-				
+		// for demonstration
+		// genericMethods.getElement("login", "id"); 
 		loginPOM.sendUserName(userName);
-		
 		loginPOM.sendPassword(password);
 		loginPOM.clickLoginBtn();
-		
 		screenShot.captureScreenShot(userName);
-
 	}
 
 }

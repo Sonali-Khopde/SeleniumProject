@@ -3,21 +3,19 @@ package com.training.sanity.tests;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.training.generics.ScreenShot;
 import com.training.pom.AddOrderDetails_UNF_054;
-import com.training.pom.AdminLoginPOM__UNF_051;
+import com.training.pom.AdminLoginPOM_UNF_051;
 import com.training.pom.DashboardPOM;
-import com.training.pom.LoginPOM;
-import com.training.pom.OrderReportPOM;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
@@ -25,9 +23,11 @@ public class OrderSalesTest_UNF_054 {
 
 	private WebDriver driver;
 	private String baseUrl;
-	private AdminLoginPOM__UNF_051 adminLoginPOM;
+	private AdminLoginPOM_UNF_051 adminLoginPOM;
 	private static Properties properties;
 	private ScreenShot screenShot;
+
+	/* To verify whether application allows admin to place an order for customer */
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws IOException {
@@ -39,7 +39,7 @@ public class OrderSalesTest_UNF_054 {
 	@BeforeMethod
 	public void setUp() throws Exception {
 		driver = DriverFactory.getDriver(DriverNames.CHROME);
-		adminLoginPOM = new AdminLoginPOM__UNF_051(driver);
+		adminLoginPOM = new AdminLoginPOM_UNF_051(driver);
 		baseUrl = properties.getProperty("baseURL");
 		screenShot = new ScreenShot(driver);
 		// open the browser
@@ -53,7 +53,7 @@ public class OrderSalesTest_UNF_054 {
 
 	@AfterMethod
 	public void tearDown() throws Exception {
-		Thread.sleep(1000);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.quit();
 	}
 
@@ -71,7 +71,6 @@ public class OrderSalesTest_UNF_054 {
 		String prod = "Blazer Girls(7-8)";
 		String prodQt = "1";
 		// String shippingMethod="Free Shipping";
-		String paymentMethod = "Cash On Delivery";
 		DashboardPOM dPOM = new DashboardPOM(driver);
 		AddOrderDetails_UNF_054 aodPOM = new AddOrderDetails_UNF_054(driver);
 		// 1. click on Sales icon
@@ -131,7 +130,6 @@ public class OrderSalesTest_UNF_054 {
 		aodPOM.clickBtnSaveOrder();
 		Assert.assertTrue(aodPOM.getConfirmMsg().contains("Success: You have "));
 		screenShot.captureScreenShot("UNF_054_Confirmation Msg");
-
 	}
 
 }

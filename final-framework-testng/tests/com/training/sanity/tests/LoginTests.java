@@ -3,6 +3,7 @@ package com.training.sanity.tests;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -44,7 +45,7 @@ public class LoginTests {
 
 	@AfterMethod
 	public void tearDown() throws Exception {
-		Thread.sleep(1000);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.quit();
 	}
 
@@ -53,9 +54,8 @@ public class LoginTests {
 		loginPOM.sendUserName("admin");
 		loginPOM.sendPassword("admin@123");
 		loginPOM.clickLoginBtn();
-		DashboardPOM dPOM=new DashboardPOM(driver);
+		DashboardPOM dPOM = new DashboardPOM(driver);
 		Assert.assertTrue(dPOM.getDashboardHeaders().contains("Dashboard"));
 		screenShot.captureScreenShot("Logged in!");
-		
 	}
 }

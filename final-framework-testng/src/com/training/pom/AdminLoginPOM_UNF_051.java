@@ -5,10 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class AdminLoginPOM__UNF_051 {
+public class AdminLoginPOM_UNF_051 {
 	private WebDriver driver;
 
-	public AdminLoginPOM__UNF_051(WebDriver driver) {
+	public AdminLoginPOM_UNF_051(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}

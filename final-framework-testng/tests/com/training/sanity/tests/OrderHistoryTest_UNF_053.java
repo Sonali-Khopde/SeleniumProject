@@ -4,6 +4,7 @@ import java.awt.AWTException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,19 +15,24 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.training.generics.ScreenShot;
-import com.training.pom.AdminLoginPOM__UNF_051;
+import com.training.pom.AdminLoginPOM_UNF_051;
 import com.training.pom.DashboardPOM;
 import com.training.pom.OrderHistoryPOM_UNF_53;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
 public class OrderHistoryTest_UNF_053 {
-	private AdminLoginPOM__UNF_051 adminLoginPOM;
+	private AdminLoginPOM_UNF_051 adminLoginPOM;
 	private WebDriver driver;
 	private String baseUrl;
 	private static Properties properties;
 	private ScreenShot screenShot;
 	JavascriptExecutor js = (JavascriptExecutor) driver;
+
+	/*
+	 * To verify whether application allows admin to generate invoice & change Order
+	 * Status to complete for the order
+	 */
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws IOException {
@@ -38,7 +44,7 @@ public class OrderHistoryTest_UNF_053 {
 	@BeforeMethod
 	public void setUp() throws Exception {
 		driver = DriverFactory.getDriver(DriverNames.CHROME);
-		adminLoginPOM = new AdminLoginPOM__UNF_051(driver);
+		adminLoginPOM = new AdminLoginPOM_UNF_051(driver);
 		baseUrl = properties.getProperty("baseURL");
 		screenShot = new ScreenShot(driver);
 		driver.get(baseUrl);
@@ -50,7 +56,7 @@ public class OrderHistoryTest_UNF_053 {
 
 	@AfterMethod
 	public void tearDown() throws Exception {
-		Thread.sleep(1000);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.quit();
 	}
 
@@ -58,8 +64,7 @@ public class OrderHistoryTest_UNF_053 {
 	public void validLoginTest() throws AWTException, InterruptedException {
 		OrderHistoryPOM_UNF_53 ohPOM = new OrderHistoryPOM_UNF_53(driver);
 		DashboardPOM dPOM = new DashboardPOM(driver);
-		// 1. Click on view icon of order placed by the customer in Latest Orders
-		// section
+		// 1. Click on view icon of order placed by the customer in Latest Orders section
 		dPOM.clickSales();
 		dPOM.clickOrder();
 		ohPOM.clickViewOrder();
@@ -72,6 +77,5 @@ public class OrderHistoryTest_UNF_053 {
 		Thread.sleep(3000);
 		Assert.assertTrue(ohPOM.getConfirMsg().contains("Success: You have modified orders!"));
 		screenShot.captureScreenShot("UNF_053_Confirmation message");
-
 	}
 }

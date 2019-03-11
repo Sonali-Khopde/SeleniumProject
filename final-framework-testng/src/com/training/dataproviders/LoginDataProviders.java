@@ -25,15 +25,28 @@ public class LoginDataProviders {
 			
 			result[count ++] = obj; 
 		}
-		
-		
 		return result;
 	}
 	
 	@DataProvider(name = "excel-inputs")
 	public Object[][] getExcelData(){
-		String fileName ="C:/Users/Naveen/Desktop/Testing.xlsx"; 
-		return new ApachePOIExcelRead().getExcelContent(fileName); 
+		String fileName ="C:/Sonali/Ignite Selenium/Final Project Test cases/UniformTestData.xlsx"; 
+		String sheetName = "Sheet1";
+		return new ApachePOIExcelRead().getExcelContent(fileName,sheetName); 
+	}
+	
+	@DataProvider(name = "excel-inputs1")
+	public Object[][] getExcelData1(){
+		String fileName ="C:/Sonali/Ignite Selenium/Final Project Test cases/UniformTestData.xlsx";
+		String sheetName = "Sheet2";
+		return new ApachePOIExcelRead().getExcelContent(fileName,sheetName); 
+	}
+	
+	@DataProvider(name = "excel-inputs2")
+	public Object[][] getExcelData2(){
+		String fileName ="C:/Sonali/Ignite Selenium/Final Project Test cases/UniformTestData.xlsx";
+		String sheetName = "Sheet3";
+		return new ApachePOIExcelRead().getExcelContent(fileName,sheetName); 
 	}
 	
 	@DataProvider(name = "xls-inputs")
